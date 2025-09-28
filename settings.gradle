@@ -1,3 +1,4 @@
 rootProject.name = 'payments-service'
 include 'customer'
 include 'fraud'
+include 'eureka-server'
