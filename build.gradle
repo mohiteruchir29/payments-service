@@ -1,19 +1,38 @@
 plugins {
+    id 'org.springframework.boot' version '3.2.5' // Apply the Spring Boot Plugin
+    id 'io.spring.dependency-management' version '1.1.4' // This is usually applied by the Spring Boot plugin
     id 'java'
+
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-repositories {
-    mavenCentral()
+    group = 'org.example'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
+
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+bootJar {
+    enabled = false
 }
 
-test {
-    useJUnitPlatform()
+jar {
+    enabled = true
 }
