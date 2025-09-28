@@ -12,14 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.customer;
+package org.example.customer.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.example.customer.entity.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@SpringBootApplication
-public class CustomerApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(CustomerApplication.class, args);
-  }
-}
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {}

@@ -12,14 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.customer;
+package org.example.customer.dto;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class CustomerApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(CustomerApplication.class, args);
-  }
-}
+public record CustomerRegistrationRequest(String firstName, String lastName, String email) {}

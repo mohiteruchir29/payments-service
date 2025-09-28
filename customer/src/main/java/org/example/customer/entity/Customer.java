@@ -12,14 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.customer;
+package org.example.customer.entity;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
-@SpringBootApplication
-public class CustomerApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(CustomerApplication.class, args);
-  }
+@Data
+@Builder
+@Entity
+public class Customer {
+
+  @Id
+  @SequenceGenerator(name = "customer_id_sequence", sequenceName = "customer_id_sequence")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_sequence")
+  private Integer id;
+
+  private String firstName;
+  private String lastName;
+  private String email;
 }
