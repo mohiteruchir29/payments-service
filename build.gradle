@@ -1,19 +1,57 @@
 plugins {
+    id 'org.springframework.boot' version '3.2.5' // Apply the Spring Boot Plugin
+    id 'io.spring.dependency-management' version '1.1.4' // This is usually applied by the Spring Boot plugin
     id 'java'
+    id 'com.diffplug.spotless' version '6.20.0'
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.diffplug.spotless'
 
-repositories {
-    mavenCentral()
+    group = 'org.example'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor ('org.projectlombok:lombok')
+
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    spotless {
+        java {
+            target 'src/**/*.java'
+            googleJavaFormat()
+            // Optionally, add a license header
+            licenseHeader '/*\n * Copyright (C) YEAR Your Company\n * Licensed under the Apache License, Version 2.0 (the "License");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an "AS IS" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */'
+        }
+    }
+
+    afterEvaluate {
+        tasks.named("compileJava") {
+            dependsOn("spotlessApply")
+        }
+    }
+
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+bootJar {
+    enabled = false
 }
 
-test {
-    useJUnitPlatform()
+jar {
+    enabled = true
 }
