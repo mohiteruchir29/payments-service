@@ -15,13 +15,11 @@
 package org.example.clients.notification;
 
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
-@ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class NotificationRequest implements Serializable {
 
   private Integer toCustomerId;
