@@ -12,6 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.fraud.dto;
+package org.example.clients.fraud;
 
-public record FraudCheckResponse(Boolean fraudster) {}
+import org.example.clients.fraud.dto.FraudCheckResponse;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@FeignClient("fraud")
+public interface FraudClient {
+
+  @GetMapping(path = "api/v1/fraud-check/{customerId}")
+  public FraudCheckResponse isFraudster(@PathVariable("customerId") Integer customerId);
+}

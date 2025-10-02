@@ -22,6 +22,8 @@ allprojects {
         implementation("org.springframework.boot:spring-boot-starter-web")
         compileOnly('org.projectlombok:lombok')
         annotationProcessor ('org.projectlombok:lombok')
+        // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+        implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
         testImplementation platform('org.junit:junit-bom:5.10.0')
         testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -43,6 +45,12 @@ allprojects {
     afterEvaluate {
         tasks.named("compileJava") {
             dependsOn("spotlessApply")
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.6"
         }
     }
 
