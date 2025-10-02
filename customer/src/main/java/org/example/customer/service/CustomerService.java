@@ -33,7 +33,15 @@ public record CustomerService(
             .lastName(customerRegistrationRequest.lastName())
             .email(customerRegistrationRequest.email())
             .build();
+    // create customer
     Customer createdCustomer = customerRepository.saveAndFlush(customer);
+
+    // fetch fraud check
     FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(createdCustomer.getId());
+
+    // throw exception if customer is fraud
+    if (fraudCheckResponse.fraudster()) {
+      throw new IllegalStateException("Fraudster");
+    }
   }
 }
