@@ -14,15 +14,18 @@
  */
 package org.example.customer.service;
 
+import org.example.clients.fraud.FraudClient;
+import org.example.clients.fraud.dto.FraudCheckResponse;
 import org.example.customer.dto.CustomerRegistrationRequest;
-import org.example.customer.dto.FraudCheckResponse;
 import org.example.customer.entity.Customer;
 import org.example.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
+public record CustomerService(
+    CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient) {
+
   public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
     Customer customer =
         Customer.builder()
@@ -31,9 +34,6 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
             .email(customerRegistrationRequest.email())
             .build();
     Customer createdCustomer = customerRepository.saveAndFlush(customer);
-    restTemplate.getForObject(
-        "http://localhost:8082/api/v1/fraud-check/{customerId}",
-        FraudCheckResponse.class,
-        createdCustomer.getId());
+    FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(createdCustomer.getId());
   }
 }

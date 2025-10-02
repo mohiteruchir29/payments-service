@@ -33,7 +33,7 @@ public class FraudCheckHistory {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fraud_id_sequence")
   private Integer id;
 
-  private String customerId;
+  private Integer customerId;
 
   private boolean fraudster;
 
