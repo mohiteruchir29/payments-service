@@ -14,17 +14,13 @@
  */
 package org.example.clients.notification;
 
-import java.io.Serializable;
-import lombok.*;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class NotificationRequest implements Serializable {
+@FeignClient("notification")
+public interface NotificationClient {
 
-  private Integer toCustomerId;
-
-  private String toCustomerName;
-
-  private String message;
+  @PostMapping("/api/v1/notification")
+  void sendNotification(@RequestBody NotificationRequest notificationRequest);
 }

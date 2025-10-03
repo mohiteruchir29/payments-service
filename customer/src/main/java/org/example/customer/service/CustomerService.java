@@ -16,6 +16,8 @@ package org.example.customer.service;
 
 import org.example.clients.fraud.FraudClient;
 import org.example.clients.fraud.dto.FraudCheckResponse;
+import org.example.clients.notification.NotificationClient;
+import org.example.clients.notification.NotificationRequest;
 import org.example.customer.dto.CustomerRegistrationRequest;
 import org.example.customer.entity.Customer;
 import org.example.customer.repository.CustomerRepository;
@@ -24,7 +26,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public record CustomerService(
-    CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient) {
+    CustomerRepository customerRepository,
+    RestTemplate restTemplate,
+    FraudClient fraudClient,
+    NotificationClient notificationClient) {
 
   public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
     Customer customer =
@@ -43,5 +48,12 @@ public record CustomerService(
     if (fraudCheckResponse.fraudster()) {
       throw new IllegalStateException("Fraudster");
     }
+
+    notificationClient.sendNotification(
+        new NotificationRequest(
+            createdCustomer.getId(),
+            createdCustomer.getEmail(),
+            String.format(
+                "Hi %s, Welcome to the payment gateway", createdCustomer.getFirstName())));
   }
 }

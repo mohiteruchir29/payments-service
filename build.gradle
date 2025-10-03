@@ -24,6 +24,9 @@ allprojects {
         annotationProcessor ('org.projectlombok:lombok')
         // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
         implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+        implementation('org.springframework.boot:spring-boot-starter-actuator')
+        implementation('io.micrometer:micrometer-tracing-bridge-otel')
+        implementation('io.opentelemetry:opentelemetry-exporter-zipkin')
 
         testImplementation platform('org.junit:junit-bom:5.10.0')
         testImplementation 'org.junit.jupiter:junit-jupiter'
