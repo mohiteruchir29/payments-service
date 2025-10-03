@@ -15,10 +15,12 @@
 package org.example.fraud.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.clients.fraud.dto.FraudCheckResponse;
 import org.example.fraud.service.FraudCheckService;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/fraud-check")
 @AllArgsConstructor
@@ -28,6 +30,7 @@ public class FraudCheckController {
 
   @GetMapping("/{customerId}")
   public FraudCheckResponse isFraudster(@PathVariable("customerId") Integer customerId) {
+    log.info("Fraud check for customer id: {}", customerId);
     boolean fraudulentCustomer = fraudCheckService.isFraudulentCustomer(customerId);
     return new FraudCheckResponse(fraudulentCustomer);
   }
